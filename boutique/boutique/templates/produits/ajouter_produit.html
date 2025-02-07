@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Ajouter un Produit{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="my-4">Ajouter un Produit</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Nom</label>
+            <input type="text" name="nom" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea name="description" class="form-control"></textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Prix</label>
+            <input type="number" name="prix" step="0.01" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Stock</label>
+            <input type="number" name="stock" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Catégorie</label>
+            <select name="categorie" class="form-control" required>
+                {% for categorie in categories %}
+                <option value="{{ categorie.id }}">{{ categorie.nom }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-success">Ajouter</button>
+        <a href="{% url 'produits:liste_produits' %}" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>

@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% block title %}Ajouter un Produit{% endblock %}
+
+{% block content %}
+
+<style>
+    .card {
+    background-color: white;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Form */
+.add-product-form {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+input {
+    padding: 0.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    font-size: 1rem;
+}
+
+input[type="text"] {
+    flex: 1;
+}
+
+input[type="number"] {
+    width: 120px;
+}
+
+/* Buttons */
+button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-add {
+    background-color: #10b981;
+    color: white;
+}
+
+.btn-add:hover {
+    background-color: #059669;
+}
+
+.btn-edit {
+    background-color: #3b82f6;
+    color: white;
+}
+
+.btn-edit:hover {
+    background-color: #2563eb;
+}
+
+.btn-delete {
+    background-color: #ef4444;
+    color: white;
+}
+
+.btn-delete:hover {
+    background-color: #dc2626;
+}
+
+.btn-sell {
+    background-color: #10b981;
+    color: white;
+}
+
+.btn-sell:hover {
+    background-color: #059669;
+}
+
+</style>
+<section id="products" class="section">
+    <div class="card">
+        <h2>Ajouter un Produit</h2>
+        <form class="add-product-form">
+            <input type="text" placeholder="Nom du produit" required>
+            <input type="number" placeholder="Prix" min="0" step="0.01" required>
+            <input type="number" placeholder="Stock" min="0" required>
+            <button type="submit" class="btn-add">Ajouter</button>
+        </form>
+    </div>
+</section>
+
+<section id="products" class="section">
+<div class="container">
+    <h2 class="my-4">Ajouter un Produit</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Nom</label>
+            <input type="text" name="nom" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea name="description" class="form-control"></textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Prix</label>
+            <input type="number" name="prix" step="0.01" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Stock</label>
+            <input type="number" name="stock" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Catégorie</label>
+            <select name="categorie" class="form-control" required>
+                {% for categorie in categories %}
+                <option value="{{ categorie.id }}">{{ categorie.nom }}</option>
+                
+                {% endfor %}
+                
+            </select>
+        </div>
+        <button type="submit" class="btn btn-success">Ajouter</button>
+        <a href="{% url 'produits:liste_produits' %}" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+</section>
+{% endblock %}
