@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Détail de la Vente{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="my-4">Détail de la Vente</h2>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Vente #{{ vente.id }}</h5>
+            <p class="card-text"><strong>Date :</strong> {{ vente.date|date:"d/m/Y H:i" }}</p>
+            <p class="card-text"><strong>Total :</strong> {{ vente.total }} €</p>
+            <h5 class="mt-4">Produits vendus</h5>
+            <ul class="list-group">
+                {% for ligne in vente.lignes.all %}
+                <li class="list-group-item">
+                    {{ ligne.quantite }} x {{ ligne.produit.nom }} - {{ ligne.prix_unitaire }} €/unité
+                </li>
+                {% endfor %}
+            </ul>
+            <a href="{% url 'ventes:liste_ventes' %}" class="btn btn-secondary mt-3">Retour</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

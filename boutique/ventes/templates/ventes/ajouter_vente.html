@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Ajouter une Vente{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="my-4">Ajouter une Vente</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Total</label>
+            <input type="number" name="total" step="0.01" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-success">Ajouter</button>
+        <a href="{% url 'ventes:liste_ventes' %}" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+{% endblock %}
