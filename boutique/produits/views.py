@@ -1,7 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from .models import Produit, Categorie
+from .forms import ProduitForm
 
 # Create your views here.
 def liste_produits(request):
@@ -42,3 +43,24 @@ def modifier_produit(request, produit_id):
         return HttpResponseRedirect(reverse('liste_produits'))
     categories = Categorie.objects.all()
     return render(request, 'produits/modifier_produit.html', {'produit': produit, 'categories': categories})
+
+def ajouter_produit(request):
+    if request.method == "POST":
+        form = ProduitForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('produits:liste_produits')
+    else:
+        form = ProduitForm()
+    return render(request, 'produits/ajouter_produit.html', {'form': form})
+
+def modifier_produit(request, produit_id):
+    produit = get_object_or_404(Produit, id=produit_id)
+    if request.method == "POST":
+        form = ProduitForm(request.POST, instance=produit)
+        if form.is_valid():
+            form.save()
+            return redirect('produits:liste_produits')
+    else:
+        form = ProduitForm(instance=produit)
+    return render(request, 'produits/modifier_produit.html', {'form': form})

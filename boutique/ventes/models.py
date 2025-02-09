@@ -4,10 +4,13 @@ from produits.models import Produit
 # Create your models here.
 class Vente(models.Model):
     date = models.DateTimeField(auto_now_add=True)
+    produit_nom = models.CharField(max_length=100, default='Default Product Name')
+    quantite = models.PositiveIntegerField(default=1)
     total = models.DecimalField(max_digits=10, decimal_places=2)
     
+    
     def __str__(self):
-        return f"Vente du {self.date.strftime('%d-%m-%Y %H:%M')}"
+        return f"Vente du {self.date.strftime('%d-%m-%Y %H:%M')} - {self.produit.nom}"
 
 class LigneVente(models.Model):
     vente = models.ForeignKey(Vente, on_delete=models.CASCADE, related_name='lignes')

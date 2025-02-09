@@ -9,7 +9,9 @@
         <div class="card-body">
             <h5 class="card-title">Vente #{{ vente.id }}</h5>
             <p class="card-text"><strong>Date :</strong> {{ vente.date|date:"d/m/Y H:i" }}</p>
-            <p class="card-text"><strong>Total :</strong> {{ vente.total }} €</p>
+            <p class="card-text"><strong>Produit :</strong> {{ vente.produit_nom }}</p>
+            <p class="card-text"><strong>Quantité :</strong> {{ vente.quantite }}</p>
+            <p class="card-text"><strong>Total :</strong> {{ vente.total }} Fcfa</p>
             <h5 class="mt-4">Produits vendus</h5>
             <ul class="list-group">
                 {% for ligne in vente.lignes.all %}
