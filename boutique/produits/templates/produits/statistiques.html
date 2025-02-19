@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Statistiques des Produits{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="my-4">Statistiques des Produits</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Total des produits : {{ total_produits }}</li>
+        <li class="list-group-item">Stock total : {{ total_stock }}</li>
+        <li class="list-group-item">Prix moyen : {{ prix_moyen|floatformat:0 }} Fcfa</li>
+        <li class="list-group-item">Catégorie la plus populaire : {{ categorie_populaire }}</li>
+    </ul>
+</div>
+{% endblock %}

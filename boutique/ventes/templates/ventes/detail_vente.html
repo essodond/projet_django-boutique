@@ -16,7 +16,7 @@
             <ul class="list-group">
                 {% for ligne in vente.lignes.all %}
                 <li class="list-group-item">
-                    {{ ligne.quantite }} x {{ ligne.produit.nom }} - {{ ligne.prix_unitaire }} €/unité
+                    {{ ligne.quantite }} x {{ ligne.produit.nom }} - {{ ligne.prix_unitaire }} Fcfa/unité
                 </li>
                 {% endfor %}
             </ul>

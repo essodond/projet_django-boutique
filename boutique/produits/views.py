@@ -3,6 +3,21 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from .models import Produit, Categorie
 from .forms import ProduitForm
+from django.db.models import Sum, Avg, Count
+
+# filepath: /c:/Users/DELL/Desktop/COURS/projet djamgo/boutique/produits/views.py
+from django.shortcuts import render, redirect
+from .forms import CategorieForm
+
+def ajouter_categorie(request):
+    if request.method == 'POST':
+        form = CategorieForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('produits:liste_produits')
+    else:
+        form = CategorieForm()
+    return render(request, 'produits/ajouter_categorie.html', {'form': form})
 
 # Create your views here.
 def liste_produits(request):
@@ -25,6 +40,9 @@ def ajouter_produit(request):
         return HttpResponseRedirect(reverse('liste_produits'))
     categories = Categorie.objects.all()
     return render(request, 'produits/ajouter_produit.html', {'categories': categories})
+
+
+
 
 def supprimer_produit(request, produit_id):
     produit = get_object_or_404(Produit, id=produit_id)
@@ -64,3 +82,36 @@ def modifier_produit(request, produit_id):
     else:
         form = ProduitForm(instance=produit)
     return render(request, 'produits/modifier_produit.html', {'form': form})
+
+    
+## views pour categorie
+
+# filepath: /c:/Users/DELL/Desktop/COURS/projet djamgo/boutique/produits/views.py
+
+
+def ajouter_categorie(request):
+    if request.method == 'POST':
+        form = CategorieForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('produits:liste_produits')
+    else:
+        form = CategorieForm()
+    return render(request, 'produits/ajouter_categorie.html', {'form': form})
+
+
+
+
+def statistiques_produits(request):
+    total_produits = Produit.objects.count()
+    total_stock = Produit.objects.aggregate(Sum('stock'))['stock__sum']
+    prix_moyen = Produit.objects.aggregate(Avg('prix'))['prix__avg']
+    categorie_populaire = Produit.objects.values('categorie__nom').annotate(count=Count('id')).order_by('-count').first()
+
+    context = {
+        'total_produits': total_produits,
+        'total_stock': total_stock,
+        'prix_moyen': prix_moyen,
+        'categorie_populaire': categorie_populaire['categorie__nom'] if categorie_populaire else None,
+    }
+    return render(request, 'produits/statistiques.html', context)

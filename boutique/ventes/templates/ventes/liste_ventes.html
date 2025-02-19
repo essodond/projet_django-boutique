@@ -5,6 +5,11 @@
 {% block content %}
 <div class="container">
     <h2 class="my-4">Liste des Ventes</h2>
+    <section class="hero">
+        <h1>Ma boutique</h1>
+        <p>Découvrez la liste des produits disponibles dans notre boutique.</p>
+    </section>
+    
     <table class="table table-striped">
         <thead>
             <tr>
@@ -19,7 +24,7 @@
             <tr>
                 <td>{{ vente.id }}</td>
                 <td>{{ vente.date|date:"d/m/Y H:i" }}</td>
-                <td>{{ vente.total }} €</td>
+                <td>{{ vente.total }} Fcfa</td>
                 <td>
                     <a href="{% url 'ventes:detail_vente' vente.id %}" class="btn btn-info btn-sm">Voir</a>
                     <a href="{% url 'ventes:supprimer_vente' vente.id %}" class="btn btn-danger btn-sm">Supprimer</a>
@@ -30,4 +35,22 @@
     </table>
     <a href="{% url 'ventes:ajouter_vente' %}" class="btn btn-primary">Ajouter une Vente</a>
 </div>
+<style>
+    .hero {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: #f5f5f5;
+}
+
+.hero h1 {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  letter-spacing: 8px;
+}
+
+</style>
 {% endblock %}

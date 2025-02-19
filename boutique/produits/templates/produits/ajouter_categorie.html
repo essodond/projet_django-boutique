@@ -1,0 +1,16 @@
+<!-- filepath: /c:/Users/DELL/Desktop/COURS/projet djamgo/boutique/produits/templates/produits/ajouter_categorie.html -->
+{% extends 'base.html' %}
+
+{% block title %}Ajouter une Catégorie{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="my-4">Ajouter une Catégorie</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Ajouter</button>
+        <a href="{% url 'produits:liste_produits' %}" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+{% endblock %}
