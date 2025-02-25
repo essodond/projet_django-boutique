@@ -1,26 +1,23 @@
 """
-URL configuration for boutique project.
+Configuration des URLs principales du projet boutique.
 
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.1/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+Ce fichier définit les routes URL principales de l'application, incluant :
+- Les URLs de l'application produits
+- Les URLs de l'application ventes
+- Les URLs de l'interface d'administration Django
 """
+
 from django.contrib import admin
-from django.urls import path
 from django.urls import path, include
 
+# Configuration des patterns d'URL principaux
 urlpatterns = [
+    # Interface d'administration Django
     path('admin/', admin.site.urls),
-    path('produits/', include('produits.urls', namespace='produits')),
-    path('ventes/', include('ventes.urls', namespace='ventes')),
     
+    # URLs de l'application produits (gestion des produits et catégories)
+    path('produits/', include('produits.urls', namespace='produits')),
+    
+    # URLs de l'application ventes (gestion des ventes et transactions)
+    path('ventes/', include('ventes.urls', namespace='ventes')),
 ]

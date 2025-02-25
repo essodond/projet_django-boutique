@@ -3,54 +3,168 @@
 {% block title %}Liste des Ventes{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h2 class="my-4">Liste des Ventes</h2>
-    <section class="hero">
-        <h1>Ma boutique</h1>
-        <p>Découvrez la liste des produits disponibles dans notre boutique.</p>
-    </section>
-    
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Date</th>
-                <th>Total</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for vente in ventes %}
-            <tr>
-                <td>{{ vente.id }}</td>
-                <td>{{ vente.date|date:"d/m/Y H:i" }}</td>
-                <td>{{ vente.total }} Fcfa</td>
-                <td>
-                    <a href="{% url 'ventes:detail_vente' vente.id %}" class="btn btn-info btn-sm">Voir</a>
-                    <a href="{% url 'ventes:supprimer_vente' vente.id %}" class="btn btn-danger btn-sm">Supprimer</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <a href="{% url 'ventes:ajouter_vente' %}" class="btn btn-primary">Ajouter une Vente</a>
+<div class="hero">
+    <h1>Ma Boutique</h1>
+    <p>Gérez vos ventes en toute simplicité</p>
 </div>
+
+<div class="container mt-5">
+    <div class="row mb-4 align-items-center">
+        <div class="col">
+            <h2 class="mb-0">
+                <i class="fas fa-shopping-cart text-success me-2"></i>Liste des Ventes
+            </h2>
+        </div>
+        <div class="col text-end">
+            <a href="{% url 'ventes:ajouter_vente' %}" class="btn btn-success btn-lg">
+                <i class="fas fa-plus me-2"></i>Nouvelle Vente
+            </a>
+        </div>
+    </div>
+
+    <div class="card shadow-sm mb-3">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="bg-light">
+                        <tr>
+                            <th>Date</th>
+                            <th>Produit</th>
+                            <th class="text-center">Quantité</th>
+                            <th class="text-end">Total</th>
+                            <th class="text-center" style="min-width: 200px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for vente in ventes %}
+                        <tr>
+                            <td>{{ vente.date|date:"d/m/Y H:i" }}</td>
+                            <td>{{ vente.produit_nom }}</td>
+                            <td class="text-center">{{ vente.quantite }}</td>
+                            <td class="text-end">{{ vente.total }} FCFA</td>
+                            <td class="text-center">
+                                <div class="btn-group">
+                                    <a href="{% url 'ventes:detail_vente' vente.id %}" class="btn btn-primary">
+                                        <i class="fas fa-eye me-2"></i>Voir
+                                    </a>
+                                    <a href="{% url 'ventes:supprimer_vente' vente.id %}" class="btn btn-danger">
+                                        <i class="fas fa-trash me-2"></i>Supprimer
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center py-3">
+                                <div class="text-muted">
+                                    <i class="fas fa-box-open fa-2x mb-2"></i>
+                                    <p class="mb-0">Aucune vente enregistrée</p>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    {% if ventes %}
+    <div class="card bg-light">
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-chart-line fa-2x text-primary me-3"></i>
+                        <div>
+                            <h6 class="mb-0">Total des ventes</h6>
+                            <h4 class="mb-0">{{ total_ventes }} FCFA</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-shopping-basket fa-2x text-success me-3"></i>
+                        <div>
+                            <h6 class="mb-0">Nombre de ventes</h6>
+                            <h4 class="mb-0">{{ ventes|length }}</h4>
+                        </div>
+                    </div>
+                </div>
+                
+
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
 <style>
-    .hero {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  background-color: #f5f5f5;
+.hero {
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #f5f5f5;
 }
 
 .hero h1 {
-  font-size: 4rem;
-  margin-bottom: 1rem;
-  letter-spacing: 8px;
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    letter-spacing: 8px;
+    color: #333;
 }
 
+.hero p {
+    font-size: 1.5rem;
+    color: #666;
+}
+
+.table th {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.btn-group {
+    gap: 0.5rem;
+}
+
+.btn-group .btn {
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+}
+
+.btn-group .btn i {
+    font-size: 1rem;
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0,0,0,.02);
+}
+
+h2 {
+    font-weight: 600;
+}
+
+.text-muted {
+    color: #6c757d !important;
+}
+
+.bg-light {
+    background-color: #f8f9fa !important;
+}
 </style>
 {% endblock %}
